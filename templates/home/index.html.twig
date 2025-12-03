@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - EventMaster{% endblock %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="hero-section text-center py-5 mb-5" style="background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%); color: white; border-radius: 20px;">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Bienvenue sur EventMaster</h1>
+        <p class="lead mb-4">La plateforme de gestion d'événements la plus simple et efficace</p>
+        
+        {% if not app.user %}
+            <div class="mt-4">
+                <a href="{{ path('app_login') }}" class="btn btn-light btn-lg px-4 me-3">
+                    <i class="fas fa-user-plus me-2"></i>Commencer gratuitement
+                </a>
+                <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-lg px-4">
+                    <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                </a>
+            </div>
+        {% else %}
+            <div class="mt-4">
+                <a href="#" class="btn btn-light btn-lg px-4">
+                    <i class="fas fa-tachometer-alt me-2"></i>Accéder au tableau de bord
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Features -->
+<section class="features py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Pourquoi choisir EventMaster ?</h2>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-icon mb-3" style="font-size: 3rem; color: #4361ee;">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h4 class="card-title">Gestion simplifiée</h4>
+                    <p class="card-text">Créez et gérez vos événements en quelques clics seulement.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-icon mb-3" style="font-size: 3rem; color: #f72585;">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h4 class="card-title">Billetterie en ligne</h4>
+                    <p class="card-text">Vendez vos billets facilement avec notre système intégré.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-icon mb-3" style="font-size: 3rem; color: #3a0ca3;">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h4 class="card-title">Statistiques détaillées</h4>
+                    <p class="card-text">Suivez vos performances avec des rapports complets.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Preview -->
+{% if categories is defined and categories %}
+<section class="categories py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Découvrez nos catégories</h2>
+        <div class="row g-3">
+            {% for category in categories|slice(0, 6) %}
+            <div class="col-md-4 col-lg-2">
+                <div class="category-card text-center p-3 rounded bg-white">
+                    <i class="fas fa-music mb-2" style="font-size: 2rem; color: #4361ee;"></i>
+                    <h6>{{ category.name }}</h6>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="cta py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Prêt à organiser votre premier événement ?</h2>
+        <p class="lead mb-4">Rejoignez des milliers d'organisateurs qui nous font déjà confiance.</p>
+        {% if not app.user %}
+            <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg px-5">  <!-- CHANGÉ ICI -->
+                <i class="fas fa-rocket me-2"></i>S'inscrire maintenant
+            </a>
+        {% else %}
+            <a href="#" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-plus-circle me-2"></i>Créer un événement
+            </a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
