@@ -1,105 +1,412 @@
-{% extends 'base.html.twig' %}
+﻿{% extends "base.html.twig" %}
 
-{% block title %}Accueil - EventMaster{% endblock %}
+{% block title %}EventMaster - Gestion Professionnelle d'Événements{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Custom styles for EventMaster */
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 100px 0;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='rgba(255,255,255,0.1)' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            opacity: 0.2;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .btn-eventmaster {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-eventmaster:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+            color: white;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .event-type-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .event-type-card:hover {
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #3a0ca3, #7209b7);
+            color: white;
+            padding: 80px 0;
+            border-radius: 20px;
+            margin: 100px 0;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
-<!-- Hero Section -->
-<section class="hero-section text-center py-5 mb-5" style="background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%); color: white; border-radius: 20px;">
-    <div class="container">
-        <h1 class="display-4 fw-bold mb-3">Bienvenue sur EventMaster</h1>
-        <p class="lead mb-4">La plateforme de gestion d'événements la plus simple et efficace</p>
-        
-        {% if not app.user %}
-            <div class="mt-4">
-                <a href="{{ path('app_login') }}" class="btn btn-light btn-lg px-4 me-3">
-                    <i class="fas fa-user-plus me-2"></i>Commencer gratuitement
-                </a>
-                <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-lg px-4">
-                    <i class="fas fa-sign-in-alt me-2"></i>Se connecter
-                </a>
-            </div>
-        {% else %}
-            <div class="mt-4">
-                <a href="#" class="btn btn-light btn-lg px-4">
-                    <i class="fas fa-tachometer-alt me-2"></i>Accéder au tableau de bord
-                </a>
-            </div>
-        {% endif %}
-    </div>
-</section>
-
-<!-- Features -->
-<section class="features py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">Pourquoi choisir EventMaster ?</h2>
-        
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 text-center p-4">
-                    <div class="card-icon mb-3" style="font-size: 3rem; color: #4361ee;">
-                        <i class="fas fa-calendar-check"></i>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Gérez vos événements comme un pro</h1>
+                    <p class="lead mb-4">EventMaster simplifie l'organisation, la promotion et la gestion de tous vos événements en un seul endroit.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#" class="btn btn-eventmaster">
+                            <i class="fas fa-plus-circle me-2"></i>Créer un événement
+                        </a>
+                        <a href="#" class="btn btn-outline-light">
+                            <i class="fas fa-play-circle me-2"></i>Voir la démo
+                        </a>
                     </div>
-                    <h4 class="card-title">Gestion simplifiée</h4>
-                    <p class="card-text">Créez et gérez vos événements en quelques clics seulement.</p>
                 </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card h-100 text-center p-4">
-                    <div class="card-icon mb-3" style="font-size: 3rem; color: #f72585;">
-                        <i class="fas fa-ticket-alt"></i>
-                    </div>
-                    <h4 class="card-title">Billetterie en ligne</h4>
-                    <p class="card-text">Vendez vos billets facilement avec notre système intégré.</p>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card h-100 text-center p-4">
-                    <div class="card-icon mb-3" style="font-size: 3rem; color: #3a0ca3;">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <h4 class="card-title">Statistiques détaillées</h4>
-                    <p class="card-text">Suivez vos performances avec des rapports complets.</p>
+                <div class="col-lg-6 text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3448/3448378.png" alt="Event Management" class="img-fluid" style="max-height: 400px;">
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Categories Preview -->
-{% if categories is defined and categories %}
-<section class="categories py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-5">Découvrez nos catégories</h2>
-        <div class="row g-3">
-            {% for category in categories|slice(0, 6) %}
-            <div class="col-md-4 col-lg-2">
-                <div class="category-card text-center p-3 rounded bg-white">
-                    <i class="fas fa-music mb-2" style="font-size: 2rem; color: #4361ee;"></i>
-                    <h6>{{ category.name }}</h6>
+    <!-- Stats Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card animate-on-scroll">
+                        <div class="stat-number">+5000</div>
+                        <div class="text-muted">Événements créés</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card animate-on-scroll">
+                        <div class="stat-number">98%</div>
+                        <div class="text-muted">Satisfaction client</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card animate-on-scroll">
+                        <div class="stat-number">+200k</div>
+                        <div class="text-muted">Participants</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card animate-on-scroll">
+                        <div class="stat-number">24/7</div>
+                        <div class="text-muted">Support disponible</div>
+                    </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-    </div>
-</section>
-{% endif %}
+    </section>
 
-<!-- Call to Action -->
-<section class="cta py-5">
-    <div class="container text-center">
-        <h2 class="mb-4">Prêt à organiser votre premier événement ?</h2>
-        <p class="lead mb-4">Rejoignez des milliers d'organisateurs qui nous font déjà confiance.</p>
-        {% if not app.user %}
-            <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg px-5">  <!-- CHANGÉ ICI -->
-                <i class="fas fa-rocket me-2"></i>S'inscrire maintenant
-            </a>
-        {% else %}
-            <a href="#" class="btn btn-primary btn-lg px-5">
-                <i class="fas fa-plus-circle me-2"></i>Créer un événement
-            </a>
-        {% endif %}
-    </div>
-</section>
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Pourquoi choisir EventMaster ?</h2>
+                <p class="text-muted">Tout ce dont vous avez besoin pour réussir vos événements</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h5 class="fw-bold">Gestion de calendrier</h5>
+                        <p class="text-muted">Planifiez et organisez tous vos événements dans un calendrier intuitif avec rappels automatiques.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <h5 class="fw-bold">Billetterie en ligne</h5>
+                        <p class="text-muted">Vendez des billets en ligne avec plusieurs options de paiement et gestion des places.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h5 class="fw-bold">Analytique avancée</h5>
+                        <p class="text-muted">Suivez les performances de vos événements avec des rapports détaillés et des statistiques.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h5 class="fw-bold">Promotion intégrée</h5>
+                        <p class="text-muted">Promouvez vos événements sur les réseaux sociaux et par email marketing directement depuis la plateforme.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5 class="fw-bold">Gestion des participants</h5>
+                        <p class="text-muted">Gérez les inscriptions, les listes d'invités et communiquez facilement avec vos participants.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h5 class="fw-bold">Application mobile</h5>
+                        <p class="text-muted">Accédez à vos événements depuis n'importe où avec notre application mobile iOS et Android.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Types Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Types d'événements supportés</h2>
+                <p class="text-muted">Adapté à tous types d'événements</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="event-type-card animate-on-scroll">
+                        <i class="fas fa-graduation-cap fa-3x mb-3" style="color: #4361ee;"></i>
+                        <h6>Conférences</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="event-type-card animate-on-scroll">
+                        <i class="fas fa-music fa-3x mb-3" style="color: #f72585;"></i>
+                        <h6>Concerts</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="event-type-card animate-on-scroll">
+                        <i class="fas fa-briefcase fa-3x mb-3" style="color: #4cc9f0;"></i>
+                        <h6>Séminaires</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="event-type-card animate-on-scroll">
+                        <i class="fas fa-utensils fa-3x mb-3" style="color: #7209b7;"></i>
+                        <h6>Événements sociaux</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Ce que disent nos clients</h2>
+                <p class="text-muted">Découvrez les expériences de nos utilisateurs</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial-card animate-on-scroll">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="testimonial-avatar me-3">
+                            <div>
+                                <h6 class="mb-0">Marie Dubois</h6>
+                                <small class="text-muted">Organisatrice d'événements</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">"EventMaster a révolutionné la façon dont nous gérons nos conférences. La billetterie en ligne est un véritable atout!"</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card animate-on-scroll">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/men/54.jpg" class="testimonial-avatar me-3">
+                            <div>
+                                <h6 class="mb-0">Thomas Martin</h6>
+                                <small class="text-muted">Responsable associatif</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">"La gestion des participants est tellement simple. Nous avons doublé notre taux d'inscription depuis que nous utilisons EventMaster."</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card animate-on-scroll">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/women/67.jpg" class="testimonial-avatar me-3">
+                            <div>
+                                <h6 class="mb-0">Sophie Lambert</h6>
+                                <small class="text-muted">Entrepreneure</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">"Les outils d'analyse m'ont permis d'optimiser mes événements et d'augmenter significativement leur rentabilité."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-4">Prêt à transformer vos événements ?</h2>
+            <p class="lead mb-5">Rejoignez des milliers d'organisateurs qui font confiance à EventMaster</p>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="#" class="btn btn-light btn-lg">
+                    <i class="fas fa-rocket me-2"></i>Commencer gratuitement
+                </a>
+                <a href="#" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-calendar-alt me-2"></i>Planifier une démo
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId !== '#') {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}
